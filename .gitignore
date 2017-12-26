@@ -1,2 +1,4 @@
 test-nodejs/node_modules/
 .vscode
+platform/java/.idea/
+platform/java/target/

@@ -4,7 +4,7 @@
  * DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
  *  @generated
  */
-package Poseidon.ParamDefine;
+package com.yodo1.poseidon.service;
 
 
 public enum ParamType implements org.apache.thrift.TEnum {

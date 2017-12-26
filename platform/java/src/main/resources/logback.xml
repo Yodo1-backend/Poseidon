@@ -1,0 +1,39 @@
+<configuration>
+
+    <property name="PATTERN" value="%d{HH:mm:ss.SSS} [%level] [%thread] [%logger{0}] - %msg%n"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE-SYNC" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${mvn.log.home}/${artifactId}.log</file>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${mvn.log.home}/${artifactId}.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <cleanHistoryOnStart>false</cleanHistoryOnStart>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE-SYNC"/>
+        <discardingThreshold>0</discardingThreshold>
+    </appender>
+
+    <logger name="com.yodo1" level="${mvn.logging.yodo1.level}" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <root level="${mvn.logging.root.level}">
+        <!--appender-ref ref="FILE"/-->
+        <appender-ref ref="FILE"/>
+    </root>
+
+</configuration>

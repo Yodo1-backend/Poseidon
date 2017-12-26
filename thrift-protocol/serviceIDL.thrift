@@ -4,7 +4,7 @@
 *
 ***/
 
-namespace java Poseidon.ServiceDefine
+namespace java com.yodo1.poseidon.service
 
 enum ParamType{
     INT = 1,
