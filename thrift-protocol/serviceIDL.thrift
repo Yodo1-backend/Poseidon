@@ -25,7 +25,7 @@ struct Params{
 }
 
 service ServiceCaller{
-    void ping(),
+    string ping(),
     i32 getConnectionsNum(),
     Params INVOKE(1:string targetService, 2:Params params),
     void INVOKEOneWay(1:string targetService, 2:Params params),

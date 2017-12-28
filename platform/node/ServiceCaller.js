@@ -42,6 +42,12 @@ ServiceCaller_ping_args.prototype.write = function(output) {
 };
 
 var ServiceCaller_ping_result = function(args) {
+  this.success = null;
+  if (args) {
+    if (args.success !== undefined && args.success !== null) {
+      this.success = args.success;
+    }
+  }
 };
 ServiceCaller_ping_result.prototype = {};
 ServiceCaller_ping_result.prototype.read = function(input) {
@@ -55,7 +61,21 @@ ServiceCaller_ping_result.prototype.read = function(input) {
     if (ftype == Thrift.Type.STOP) {
       break;
     }
-    input.skip(ftype);
+    switch (fid)
+    {
+      case 0:
+      if (ftype == Thrift.Type.STRING) {
+        this.success = input.readString();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 0:
+        input.skip(ftype);
+        break;
+      default:
+        input.skip(ftype);
+    }
     input.readFieldEnd();
   }
   input.readStructEnd();
@@ -64,6 +84,11 @@ ServiceCaller_ping_result.prototype.read = function(input) {
 
 ServiceCaller_ping_result.prototype.write = function(output) {
   output.writeStructBegin('ServiceCaller_ping_result');
+  if (this.success !== null && this.success !== undefined) {
+    output.writeFieldBegin('success', Thrift.Type.STRING, 0);
+    output.writeString(this.success);
+    output.writeFieldEnd();
+  }
   output.writeFieldStop();
   output.writeStructEnd();
   return;
@@ -416,7 +441,10 @@ ServiceCallerClient.prototype.recv_ping = function(input,mtype,rseqid) {
   result.read(input);
   input.readMessageEnd();
 
-  callback(null);
+  if (null !== result.success) {
+    return callback(null, result.success);
+  }
+  return callback('ping failed: unknown result');
 };
 ServiceCallerClient.prototype.getConnectionsNum = function(callback) {
   this._seqid = this.new_seqid();
