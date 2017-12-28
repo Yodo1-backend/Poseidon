@@ -1,5 +1,6 @@
 package com.yodo1.app;
 
+import com.yodo1.poseidon.service.RPCManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,6 +22,8 @@ import java.util.concurrent.Executor;
 @ComponentScan({"com.yodo1.app"})
 public class Application {
 
+    @Autowired
+    private RPCManager rpcManager;
     public static void main(String[] args) throws Exception {
 
         System.out.println("hello");
