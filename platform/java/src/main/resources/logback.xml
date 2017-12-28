@@ -33,7 +33,7 @@
 
     <root level="${mvn.logging.root.level}">
         <!--appender-ref ref="FILE"/-->
-        <appender-ref ref="FILE"/>
+        <appender-ref ref="CONSOLE"/>
     </root>
 
 </configuration>

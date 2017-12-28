@@ -43,7 +43,7 @@ public class ServiceCallerImp implements ServiceCaller.Iface{
         result.num = 88;
         result.paramsBody = new HashMap<String,Param>();
         result.paramsBody.put("testKey", tempParam);
-        System.out.println("receive INVOKE");
+        System.out.println("receive INVOKE:"+methodName+",params Num:"+params.num);
         return result;
     }
     @Override
@@ -59,6 +59,7 @@ public class ServiceCallerImp implements ServiceCaller.Iface{
     @Override
     public String ping()
     {
+        System.out.println("receive PING");
         return "Pong!";
     }
 }

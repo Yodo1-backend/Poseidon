@@ -7,7 +7,7 @@ const assert = require('assert');
 var startDate = new Date();
 var transport = thrift.TFramedTransport;
 var protocol = thrift.TBinaryProtocol;
-var connection = thrift.createConnection("172.16.100.96", 30001, {
+var connection = thrift.createConnection("172.16.100.181", 30001, {
   transport : transport,
   protocol : protocol
 });
@@ -15,13 +15,14 @@ var connection = thrift.createConnection("172.16.100.96", 30001, {
 connection.on('error', function(err) {
   assert(false, err);
 });
-
+var params = new ttypes.Params();
+params.num = 10;
 // Create a Calculator client with the connection
 var client = thrift.createClient(Calculator, connection);
 //for(var i = 0;i<100;i++)
 //{
   var startDate = new Date();
-  var resp = client.INVOKE(null,function(err,message){
+  var resp = client.INVOKE("aa",params,function(err,message){
     if(err)
     {
       console.log("Error:"+err);

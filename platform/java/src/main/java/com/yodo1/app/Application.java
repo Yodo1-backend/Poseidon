@@ -22,7 +22,7 @@ import java.util.concurrent.Executor;
 @ComponentScan({"com.yodo1.app","com.yodo1.poseidon.service"})
 public class Application {
 
-    @Resource(name = "init")
+    @Resource(name = "server")
     private RPCManager rpcManager;
     public static void main(String[] args) throws Exception {
 
