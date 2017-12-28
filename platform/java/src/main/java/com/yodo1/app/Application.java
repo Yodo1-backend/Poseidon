@@ -19,10 +19,10 @@ import java.util.concurrent.Executor;
  */
 @SpringBootApplication
 @EnableAsync
-@ComponentScan({"com.yodo1.app"})
+@ComponentScan({"com.yodo1.app","com.yodo1.poseidon.service"})
 public class Application {
 
-    @Autowired
+    @Resource(name = "init")
     private RPCManager rpcManager;
     public static void main(String[] args) throws Exception {
 
