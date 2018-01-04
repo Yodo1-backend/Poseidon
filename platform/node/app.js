@@ -7,7 +7,7 @@ const assert = require('assert');
 var startDate = new Date();
 var transport = thrift.TFramedTransport;
 var protocol = thrift.TBinaryProtocol;
-var connection = thrift.createConnection("172.16.100.181", 30001, {
+var connection = thrift.createConnection("172.16.100.96", 30001, {
   transport : transport,
   protocol : protocol
 });
@@ -15,7 +15,7 @@ var connection = thrift.createConnection("172.16.100.181", 30001, {
 connection.on('error', function(err) {
   assert(false, err);
 });
-var params = new ttypes.Params();
+var params = new ttypes.ReqParams();
 params.num = 10;
 // Create a Calculator client with the connection
 var client = thrift.createClient(Calculator, connection);
@@ -30,12 +30,11 @@ var client = thrift.createClient(Calculator, connection);
     }
     else
     {
-      var b = message;
-      var c = b;
-
+      console.log("Server Status:"+message.status);
+      console.log("Server Duration:"+message.serverTicks);
       connection.end();
       var endDate = new Date();
-      console.log("Duration:"+(endDate-startDate));
+      console.log("Total Duration:"+(endDate-startDate));
     }
   });
 //}

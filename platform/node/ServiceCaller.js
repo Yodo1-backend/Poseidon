@@ -183,7 +183,7 @@ var ServiceCaller_INVOKE_args = function(args) {
       this.targetService = args.targetService;
     }
     if (args.params !== undefined && args.params !== null) {
-      this.params = new ttypes.Params(args.params);
+      this.params = new ttypes.ReqParams(args.params);
     }
   }
 };
@@ -210,7 +210,7 @@ ServiceCaller_INVOKE_args.prototype.read = function(input) {
       break;
       case 2:
       if (ftype == Thrift.Type.STRUCT) {
-        this.params = new ttypes.Params();
+        this.params = new ttypes.ReqParams();
         this.params.read(input);
       } else {
         input.skip(ftype);
@@ -246,7 +246,7 @@ var ServiceCaller_INVOKE_result = function(args) {
   this.success = null;
   if (args) {
     if (args.success !== undefined && args.success !== null) {
-      this.success = new ttypes.Params(args.success);
+      this.success = new ttypes.ResParams(args.success);
     }
   }
 };
@@ -266,7 +266,7 @@ ServiceCaller_INVOKE_result.prototype.read = function(input) {
     {
       case 0:
       if (ftype == Thrift.Type.STRUCT) {
-        this.success = new ttypes.Params();
+        this.success = new ttypes.ResParams();
         this.success.read(input);
       } else {
         input.skip(ftype);
@@ -304,7 +304,7 @@ var ServiceCaller_INVOKEOneWay_args = function(args) {
       this.targetService = args.targetService;
     }
     if (args.params !== undefined && args.params !== null) {
-      this.params = new ttypes.Params(args.params);
+      this.params = new ttypes.ReqParams(args.params);
     }
   }
 };
@@ -331,7 +331,7 @@ ServiceCaller_INVOKEOneWay_args.prototype.read = function(input) {
       break;
       case 2:
       if (ftype == Thrift.Type.STRUCT) {
-        this.params = new ttypes.Params();
+        this.params = new ttypes.ReqParams();
         this.params.read(input);
       } else {
         input.skip(ftype);

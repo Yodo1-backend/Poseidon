@@ -85,7 +85,7 @@ Param.prototype.write = function(output) {
   return;
 };
 
-var Params = module.exports.Params = function(args) {
+var ReqParams = module.exports.ReqParams = function(args) {
   this.num = 0;
   this.paramsBody = null;
   if (args) {
@@ -97,8 +97,8 @@ var Params = module.exports.Params = function(args) {
     }
   }
 };
-Params.prototype = {};
-Params.prototype.read = function(input) {
+ReqParams.prototype = {};
+ReqParams.prototype.read = function(input) {
   input.readStructBegin();
   while (true)
   {
@@ -152,8 +152,8 @@ Params.prototype.read = function(input) {
   return;
 };
 
-Params.prototype.write = function(output) {
-  output.writeStructBegin('Params');
+ReqParams.prototype.write = function(output) {
+  output.writeStructBegin('ReqParams');
   if (this.num !== null && this.num !== undefined) {
     output.writeFieldBegin('num', Thrift.Type.I32, 1);
     output.writeI32(this.num);
@@ -169,6 +169,132 @@ Params.prototype.write = function(output) {
         var viter9 = this.paramsBody[kiter8];
         output.writeString(kiter8);
         viter9.write(output);
+      }
+    }
+    output.writeMapEnd();
+    output.writeFieldEnd();
+  }
+  output.writeFieldStop();
+  output.writeStructEnd();
+  return;
+};
+
+var ResParams = module.exports.ResParams = function(args) {
+  this.status = 0;
+  this.serverTicks = 0;
+  this.num = 0;
+  this.paramsBody = null;
+  if (args) {
+    if (args.status !== undefined && args.status !== null) {
+      this.status = args.status;
+    }
+    if (args.serverTicks !== undefined && args.serverTicks !== null) {
+      this.serverTicks = args.serverTicks;
+    }
+    if (args.num !== undefined && args.num !== null) {
+      this.num = args.num;
+    }
+    if (args.paramsBody !== undefined && args.paramsBody !== null) {
+      this.paramsBody = Thrift.copyMap(args.paramsBody, [ttypes.Param]);
+    }
+  }
+};
+ResParams.prototype = {};
+ResParams.prototype.read = function(input) {
+  input.readStructBegin();
+  while (true)
+  {
+    var ret = input.readFieldBegin();
+    var fname = ret.fname;
+    var ftype = ret.ftype;
+    var fid = ret.fid;
+    if (ftype == Thrift.Type.STOP) {
+      break;
+    }
+    switch (fid)
+    {
+      case 1:
+      if (ftype == Thrift.Type.I32) {
+        this.status = input.readI32();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 2:
+      if (ftype == Thrift.Type.I64) {
+        this.serverTicks = input.readI64();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 3:
+      if (ftype == Thrift.Type.I32) {
+        this.num = input.readI32();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      case 4:
+      if (ftype == Thrift.Type.MAP) {
+        var _size10 = 0;
+        var _rtmp314;
+        this.paramsBody = {};
+        var _ktype11 = 0;
+        var _vtype12 = 0;
+        _rtmp314 = input.readMapBegin();
+        _ktype11 = _rtmp314.ktype;
+        _vtype12 = _rtmp314.vtype;
+        _size10 = _rtmp314.size;
+        for (var _i15 = 0; _i15 < _size10; ++_i15)
+        {
+          var key16 = null;
+          var val17 = null;
+          key16 = input.readString();
+          val17 = new ttypes.Param();
+          val17.read(input);
+          this.paramsBody[key16] = val17;
+        }
+        input.readMapEnd();
+      } else {
+        input.skip(ftype);
+      }
+      break;
+      default:
+        input.skip(ftype);
+    }
+    input.readFieldEnd();
+  }
+  input.readStructEnd();
+  return;
+};
+
+ResParams.prototype.write = function(output) {
+  output.writeStructBegin('ResParams');
+  if (this.status !== null && this.status !== undefined) {
+    output.writeFieldBegin('status', Thrift.Type.I32, 1);
+    output.writeI32(this.status);
+    output.writeFieldEnd();
+  }
+  if (this.serverTicks !== null && this.serverTicks !== undefined) {
+    output.writeFieldBegin('serverTicks', Thrift.Type.I64, 2);
+    output.writeI64(this.serverTicks);
+    output.writeFieldEnd();
+  }
+  if (this.num !== null && this.num !== undefined) {
+    output.writeFieldBegin('num', Thrift.Type.I32, 3);
+    output.writeI32(this.num);
+    output.writeFieldEnd();
+  }
+  if (this.paramsBody !== null && this.paramsBody !== undefined) {
+    output.writeFieldBegin('paramsBody', Thrift.Type.MAP, 4);
+    output.writeMapBegin(Thrift.Type.STRING, Thrift.Type.STRUCT, Thrift.objectLength(this.paramsBody));
+    for (var kiter18 in this.paramsBody)
+    {
+      if (this.paramsBody.hasOwnProperty(kiter18))
+      {
+        var viter19 = this.paramsBody[kiter18];
+        output.writeString(kiter18);
+        viter19.write(output);
       }
     }
     output.writeMapEnd();
