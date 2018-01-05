@@ -6,8 +6,7 @@ import org.apache.thrift.TException;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.*;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Service;
+
 
 import java.util.Map;
 

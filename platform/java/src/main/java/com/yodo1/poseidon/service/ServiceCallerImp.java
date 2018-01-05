@@ -3,9 +3,7 @@ package com.yodo1.poseidon.service;
 import com.yodo1.formatlog.Yodo1LoggerFactory;
 import com.yodo1.formatlog.Yodo1ServiceLogger;
 import org.apache.thrift.TException;
-import org.springframework.beans.factory.BeanFactory;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
