@@ -1,18 +1,53 @@
 package com.yodo1.poseidon.service;
 
+import com.yodo1.formatlog.Yodo1LoggerFactory;
+import com.yodo1.formatlog.Yodo1ServiceLogger;
 import org.apache.thrift.TException;
+import org.springframework.beans.factory.BeanFactory;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by YanFeng on 2017/12/28.
+ *
+ * 协议中status的约定：
+ * 1:正常
+ * -2:服务端bridge未设置；
+ * -3:服务端不包含methodName对应的处理
+ * -4:服务端未知异常
+ * -10:客户端的ReqParams不合法
  */
 public class ServiceCallerImp implements ServiceCaller.Iface{
 
-    @Override
-    public Params INVOKE(String methodName,Params params) throws TException
+    private Yodo1ServiceLogger logger = Yodo1LoggerFactory.getServiceLogger(ServiceCallerImp.class);
+
+    private IServiceBridge serviceBridge;
+
+    public static final int STATUS_GOOD             = 1;
+    public static final int STATUS_NO_BRIDGE        = -2;
+    public static final int STATUS_NO_MAPPING_FUNC  = -3;
+    public static final int STATUS_UNKNOWN_ERROR    = -4;
+    public static final int STATUS_REQPARAMS_ILLEGAL= -10;
+
+    public void SetBridge(IServiceBridge serviceBridge)
     {
-        Params result = new Params();
+        this.serviceBridge = serviceBridge;
+    }
+
+    public ResParams commonReturn(long startStamp,ResParams res)
+    {
+        res.serverTicks = System.currentTimeMillis() - startStamp;
+        return res;
+    }
+
+    @Override
+    public ResParams INVOKE(String methodName,ReqParams params) throws TException
+    {
+
+        ResParams result = new ResParams();
+        long _startstamp = System.currentTimeMillis();
+        /*
         Param tempParam = new Param();
         tempParam.type = ParamType.STRING;
         tempParam.body = "MIIEpAIBAAKCAQEAlE/0UqMfPbz9iBugrecugPSwrHzCX5ceRbCFFYSSCAw4A5rr" +
@@ -45,11 +80,53 @@ public class ServiceCallerImp implements ServiceCaller.Iface{
         result.paramsBody.put("testKey", tempParam);
         System.out.println("receive INVOKE:"+methodName+",params Num:"+params.num);
         return result;
+        */
+        if(null != serviceBridge)
+        {
+            try {
+                Map<String,Param> resultFromBridge = this.serviceBridge.CallService(methodName,params.paramsBody);
+                result.paramsBody = resultFromBridge;
+                result.status = STATUS_GOOD;
+            }
+            catch (Exception e)
+            {
+                result.status = STATUS_UNKNOWN_ERROR;
+            }
+            finally
+            {
+                return commonReturn(_startstamp,result);
+            }
+        }
+        else
+        {
+            result.status = STATUS_NO_BRIDGE;
+            return commonReturn(_startstamp,result);
+        }
     }
     @Override
-    public void INVOKEOneWay(String methodName, Params params) throws TException
+    public void INVOKEOneWay(String methodName, ReqParams params) throws TException
     {
-
+        ResParams result = new ResParams();
+        long _startstamp = System.currentTimeMillis();
+        if(null != serviceBridge)
+        {
+            try
+            {
+                this.serviceBridge.CallServiceOneWay(methodName,params.paramsBody);
+            }
+            catch (Exception e)
+            {
+                //todo log
+            }
+            finally
+            {
+                return ;
+            }
+        }
+        else
+        {
+            //todo log
+        }
     }
     @Override
     public int getConnectionsNum()
@@ -59,7 +136,7 @@ public class ServiceCallerImp implements ServiceCaller.Iface{
     @Override
     public String ping()
     {
-        System.out.println("receive PING");
+        logger.ServiceFunctionLog("receive PING");
         return "Pong!";
     }
 }

@@ -29,6 +29,7 @@
 
     <logger name="com.yodo1" level="${mvn.logging.yodo1.level}" additivity="false">
         <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
     </logger>
 
     <root level="${mvn.logging.root.level}">
