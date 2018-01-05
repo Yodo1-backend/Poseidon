@@ -6,11 +6,14 @@ import org.apache.thrift.TProcessorFactory;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.server.TNonblockingServer;
 import org.apache.thrift.server.TServer;
+import org.apache.thrift.server.TThreadedSelectorServer;
 import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TNonblockingServerSocket;
 import org.apache.thrift.transport.TTransportException;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by YanFeng on 2018/1/4.
@@ -35,11 +38,17 @@ public class ListenThread extends Thread{
         {
             TNonblockingServerSocket socket = new TNonblockingServerSocket(this.port);
             ServiceCaller.Processor processor = new ServiceCaller.Processor(this.callerImp);
-            TNonblockingServer.Args arg = new TNonblockingServer.Args(socket);
+            TThreadedSelectorServer.Args arg = new TThreadedSelectorServer.Args(socket);
             arg.protocolFactory(new TBinaryProtocol.Factory());
             arg.transportFactory(new TFramedTransport.Factory());
             arg.processorFactory(new TProcessorFactory(processor));
-            this.server = new TNonblockingServer (arg);
+
+            arg.selectorThreads(2);
+            // 工作线程池
+            ExecutorService pool = Executors.newFixedThreadPool(3);
+            arg.executorService(pool);
+
+            this.server = new TThreadedSelectorServer(arg);
             logger.ServiceFunctionLog("Start Service:");
             this.server.serve();
             logger.ServiceFunctionLog("Started Service");
