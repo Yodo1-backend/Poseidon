@@ -8,10 +8,10 @@
     <artifactId>Poseidon</artifactId>
     <packaging>jar</packaging>
     <version>0.2.0</version>
-    <name>Yodo1 Logger</name>
-    <description>Yodo1 logger for OPS</description>
+    <name>Poseidon</name>
+    <description>Yodo1 RPC Transfer Protocol</description>
 
-    <url>https://github.com/sOUTHeRYF/Yodo1Logger</url>
+    <url>https://github.com/Yodo1-backend/Poseidon/tree/master/platform/java</url>
     
 
     <licenses>
@@ -23,18 +23,18 @@
 
   <scm>
     <connection>
-      scm:git:https://github.com/sOUTHeRYF/Yodo1Logger.git
+      scm:git:https://github.com/Yodo1-backend/Poseidon.git
     </connection>
     <developerConnection>
-      scm:git:https://github.com/sOUTHeRYF/Yodo1Logger.git
+      scm:git:https://github.com/Yodo1-backend/Poseidon.git
     </developerConnection>
-    <url>https://github.com/sOUTHeRYF/Yodo1Logger</url>
+    <url>https://github.com/Yodo1-backend/Poseidon</url>
   </scm>
 
   <developers>
     <developer>
       <name>yodo1dev</name>
-      <email>dev@yodo1.com</email>
+      <email>yodo1@yodo1.com</email>
     </developer>
   </developers>
 
