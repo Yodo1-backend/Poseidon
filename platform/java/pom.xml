@@ -4,10 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.yodo1.poseidon</groupId>
-    <artifactId>Poseidon</artifactId>
+    <groupId>com.yodo1</groupId>
+    <artifactId>poseidon</artifactId>
     <packaging>jar</packaging>
-    <version>0.2.0</version>
+    <version>0.2.2</version>
     <name>Poseidon</name>
     <description>Yodo1 RPC Transfer Protocol</description>
 
